@@ -1,20 +1,24 @@
 import 'unimas_grade.dart';
 
 class Course {
-  String name;      // e.g., "Data Structures"
-  int creditHours;  // e.g., 3 or 4
-  String grade;     // e.g., "A"
+  final String code;        // e.g., "TMF1414"
+  final String name;        // e.g., "Introduction to Programming"
+  final int creditHours;    // e.g., 4
+  final int year;           // e.g., 1
+  final int semester;       // e.g., 1 or 2
+  String? grade;            // Nullable because you might not have taken it yet
 
   Course({
+    required this.code,
     required this.name,
     required this.creditHours,
-    required this.grade,
+    required this.year,
+    required this.semester,
+    this.grade, // Optional
   });
 
-  // This uses the logic file you just created to get the 4.00 value
-  double get point => UnimasGrade.convertGradeToPoint(grade);
+  // Returns 0.00 if no grade is assigned yet
+  double get point => grade != null ? UnimasGrade.convertGradeToPoint(grade!) : 0.00;
 
-  // This calculates the weight (Credits * Point)
-  // e.g., 3 credits * 4.00 = 12.00
   double get totalQualityPoints => point * creditHours;
 }
